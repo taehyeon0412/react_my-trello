@@ -1,5 +1,12 @@
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { toDoState } from "./atoms";
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,10 +38,10 @@ const Card = styled.div`
   padding: 10px 10px;
 `;
 
-const toDos = ["a", "b", "c", "d", "e"];
-
 function App() {
-  const onDragEnd = () => {};
+  const [toDos, setToDos] = useRecoilState(toDoState);
+  const onDragEnd = ({ destination, source }: DropResult) => {};
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Wrapper>
@@ -43,7 +50,7 @@ function App() {
             {(provided) => (
               <Board ref={provided.innerRef} {...provided.droppableProps}>
                 {toDos.map((toDo, index) => (
-                  <Draggable draggableId={toDo} index={index}>
+                  <Draggable key={index} draggableId={toDo} index={index}>
                     {(provided) => (
                       <Card
                         ref={provided.innerRef}
@@ -70,3 +77,8 @@ export default App;
 /* {provided.placeholder}==>
 Draggable 엘리먼트를 드래그하는 동안 
 position: fixed(영역을 고정시킴)를 적용합니다. */
+
+/* splice 함수는 (지우는 인덱스 시작 숫자, 지우는 개수, 더하는 아이템)으로 사용한다
+x.splice(0,1)이라면 인덱스0번부터 아이템 1개를 삭제한다라는 뜻
+x.splice(1,0,"a")이라면 인덱스 1번부터 시작하여 0개의 아이템을 지우고 그자리에
+a를 추가한다는 뜻이다  */
