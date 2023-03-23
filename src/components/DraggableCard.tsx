@@ -19,8 +19,11 @@ function DraggableCard({ toDo, index }: IDraggableCardProps) {
   return (
     <Draggable key={toDo} draggableId={toDo} index={index}>
       {(provided) => (
-        <Card ref={provided.innerRef} {...provided.draggableProps}>
-          <span {...provided.dragHandleProps}>💗</span>
+        <Card
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
           {toDo}
         </Card>
       )}
