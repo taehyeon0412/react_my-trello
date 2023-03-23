@@ -61,6 +61,7 @@ function App() {
               <Board ref={provided.innerRef} {...provided.droppableProps}>
                 {toDos.map((toDo, index) => (
                   <DraggableCard key={toDo} index={index} toDo={toDo} />
+                  //DraggableCard 컴포넌트
                 ))}
                 {provided.placeholder}
               </Board>
