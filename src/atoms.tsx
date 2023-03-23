@@ -8,8 +8,10 @@ interface IToDoState {
 export const toDoState = atom<IToDoState>({
   key: "toDo",
   default: {
-    to_do: ["a", "b"],
+    "To Do": ["a", "b"],
     doing: ["c", "d"],
     done: ["e", "f"],
   },
 });
+
+//"To Do"에만 ""있는 이유 => 띄어쓰기가 안되기때문에 ""로 감싸면 띄어쓰기 가능
