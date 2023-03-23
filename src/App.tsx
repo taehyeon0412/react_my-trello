@@ -7,6 +7,7 @@ import {
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { toDoState } from "./atoms";
+import DraggableCard from "./components/DraggableCard";
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,16 +32,25 @@ const Board = styled.div`
   min-height: 200px;
 `;
 
-const Card = styled.div`
-  background-color: ${(props) => props.theme.cardColor};
-  border-radius: 5px;
-  margin-bottom: 5px;
-  padding: 10px 10px;
-`;
-
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
-  const onDragEnd = ({ destination, source }: DropResult) => {};
+  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
+    if (!destination) return;
+    //destination이 아닐결우 = 드롭한 곳이 똑같은 위치일경우 그냥 리턴한다
+
+    setToDos((oldToDos) => {
+      const toDosCopy = [...oldToDos]; //...oldToDos는 모든값들을 쓴다는뜻
+      /* dnd 후 자리가 변경되게 하려면 드래그한 아이템을 삭제 후 
+      드랍한 위치에 다시 추가해주는 방법을 쓰면된다 splice사용 */
+
+      toDosCopy.splice(source.index, 1);
+      //source.index는 드래그한 index 번호
+      toDosCopy.splice(destination?.index, 0, draggableId);
+      //destination.index는 드롭한 위치 index 번호
+      //draggableId는 toDo이다
+      return toDosCopy;
+    });
+  };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -50,17 +60,7 @@ function App() {
             {(provided) => (
               <Board ref={provided.innerRef} {...provided.droppableProps}>
                 {toDos.map((toDo, index) => (
-                  <Draggable key={index} draggableId={toDo} index={index}>
-                    {(provided) => (
-                      <Card
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                      >
-                        <span {...provided.dragHandleProps}>💗</span>
-                        {toDo}
-                      </Card>
-                    )}
-                  </Draggable>
+                  <DraggableCard key={toDo} index={index} toDo={toDo} />
                 ))}
                 {provided.placeholder}
               </Board>
