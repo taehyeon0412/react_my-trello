@@ -2,8 +2,9 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
-const Card = styled.div`
-  background-color: ${(props) => props.theme.cardColor};
+const Card = styled.div<{ isDragging: boolean }>`
+  background-color: ${(props) =>
+    props.isDragging ? "#74b9ff" : props.theme.cardColor};
   border-radius: 5px;
   margin-bottom: 5px;
   padding: 10px 10px;
@@ -18,8 +19,9 @@ function DraggableCard({ toDo, index }: IDraggableCardProps) {
   console.log(toDo, "렌더링됨");
   return (
     <Draggable key={toDo} draggableId={toDo} index={index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <Card
+          isDragging={snapshot.isDragging} //드래그 되는 카드
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -39,3 +41,7 @@ export default React.memo(DraggableCard);
 props가 바뀌지 않는다면 렌더링을 하지 않게 함 (위치를 바꾸면 index가 바뀜)
 React.memo(DraggableCard);
  */
+
+/* snapshot 
+==> isDragging: boolean
+Draggable이 활발하게 드래그 중이거나 드롭 애니메이션인 경우 true로 설정합니다. */

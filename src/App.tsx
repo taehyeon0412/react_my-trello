@@ -26,7 +26,7 @@ function App() {
   const onDragEnd = (info: DropResult) => {
     const { draggableId, destination, source } = info;
 
-    console.log(info);
+    /* console.log(info); */
 
     if (!destination) return;
     ///destination이 아닐결우 = 드롭한 곳이 똑같은 위치일경우 그냥 리턴한다
