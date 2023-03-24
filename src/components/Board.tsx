@@ -1,6 +1,9 @@
 import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import DraggableCard from "./DraggableCard";
+import { useForm } from "react-hook-form";
+import React from "react";
+import { ITodo } from "./../atoms";
 
 const BroadWrapper = styled.div`
   padding-top: 20px;
@@ -37,14 +40,39 @@ const Title = styled.h2`
 `;
 
 interface IBoardProps {
-  toDos: string[];
+  toDos: ITodo[]; //atoms에 있는 ITodo를 가져옴
   boardId: string;
 }
 
+const Form = styled.form`
+  width: 100%;
+  input {
+    width: 100%;
+  }
+`;
+
+interface IForm {
+  toDo: string;
+}
+
 function Board({ toDos, boardId }: IBoardProps) {
+  const { register, handleSubmit, setValue } = useForm<IForm>();
+  const onSubmit = ({ toDo }: IForm) => {
+    setValue("toDo", "");
+  };
+
   return (
     <BroadWrapper>
       <Title>{boardId}</Title>
+
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <input
+          {...register("toDo", { required: true })}
+          type="text"
+          placeholder={`추가 할 ${boardId}`}
+        />
+      </Form>
+
       <Droppable droppableId={boardId}>
         {(provided, snapshot) => (
           <Wrapper
@@ -55,7 +83,12 @@ function Board({ toDos, boardId }: IBoardProps) {
             {...provided.droppableProps}
           >
             {toDos.map((toDo, index) => (
-              <DraggableCard key={toDo} index={index} toDo={toDo} />
+              <DraggableCard
+                key={toDo.id}
+                index={index}
+                toDoId={toDo.id}
+                toDoText={toDo.text}
+              />
               //DraggableCard 컴포넌트
             ))}
             {provided.placeholder}

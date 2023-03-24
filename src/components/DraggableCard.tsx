@@ -11,14 +11,16 @@ const Card = styled.div<{ isDragging: boolean }>`
 `;
 
 interface IDraggableCardProps {
-  toDo: string;
+  toDoId: number;
+  toDoText: string;
   index: number;
 }
 
-function DraggableCard({ toDo, index }: IDraggableCardProps) {
-  console.log(toDo, "렌더링됨");
+function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
+  console.log(toDoId, "렌더링됨");
   return (
-    <Draggable key={toDo} draggableId={toDo} index={index}>
+    <Draggable draggableId={toDoId + ""} index={index}>
+      {/* +string => number , number+""=>string */}
       {(provided, snapshot) => (
         <Card
           isDragging={snapshot.isDragging} //드래그 되는 카드
@@ -26,7 +28,7 @@ function DraggableCard({ toDo, index }: IDraggableCardProps) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          {toDo}
+          {toDoText}
         </Card>
       )}
     </Draggable>

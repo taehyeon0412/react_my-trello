@@ -42,7 +42,10 @@ function App() {
         //source.index는 드래그한 index 번호
         boardCopy.splice(destination?.index, 0, draggableId);
         //destination.index는 드롭한 위치 index 번호
-        //draggableId는 toDo이다
+        /* draggableId는 toDo이다 단순 string일때는 (예시=> todo:["a","b"]) 
+        (destination?.index, 0, draggableId)로 쓰면 되는데
+        단순 string --> ToDoList로 바뀌면 array로 이루어진 board(오브젝트)라고 
+        알려주어야된다*/
 
         return {
           ...allBoards,
