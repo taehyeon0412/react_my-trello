@@ -27,6 +27,9 @@ function App() {
     const { draggableId, destination, source } = info;
 
     console.log(info);
+
+    if (!destination) return;
+    ///destination이 아닐결우 = 드롭한 곳이 똑같은 위치일경우 그냥 리턴한다
     if (destination?.droppableId === source.droppableId) {
       //같은 보드에서 변경이 있을 경우
 
@@ -46,6 +49,29 @@ function App() {
           [source.droppableId]: boardCopy,
         };
         //수정된 보드(boardCopy) + 다른 보드들도 모두 불러와야 된다(allBoards)
+        /* [source.droppableId]: boardCopy에서 
+        [키]:표현식은 es6 문법이다 key값에 표현식(변수,함수등)을 지정하는문법 
+        "To Do": boardCopy로 js는 알아듣는다
+        정리하면 splice로 변경된 boardCopy를 source.droppableId에 넣는다는뜻*/
+      });
+    }
+
+    if (destination.droppableId !== source.droppableId) {
+      //다른 보드를 건너가서 변경이 있을 경우
+
+      setToDos((allBoards) => {
+        const sourceBoard = [...allBoards[source.droppableId]];
+        //시작지점(드래그지점)
+        const destinationBoard = [...allBoards[destination.droppableId]];
+        //끝지점(드롭지점)
+        sourceBoard.splice(source.index, 1);
+        destinationBoard.splice(destination?.index, 0, draggableId);
+
+        return {
+          ...allBoards,
+          [source.droppableId]: sourceBoard,
+          [destination.droppableId]: destinationBoard,
+        };
       });
     }
   };
@@ -96,9 +122,17 @@ a를 추가한다는 뜻이다  */
 
 /*--------------------------------------------------------------*/
 
-/*여러개의 보드를 사용할때 방법
+/*여러개의 보드를 사용하고 같은 보드에 변경이 있을때 방법
 1. 변경이 일어난 보드만 복사한다. => boardCopy
 2. 변경이 일어난 보드의 복사본을 기존에 있던 보드옆에 붙여준다 => allBoards
 */
+
+/*여러개의 보드를 사용하고 다른 보드에 변경이 있을때 방법
+1. 변경이 일어난 보드들을 복사한다. => source(드래그),destination(드롭) 2가지보드
+2. 변경이 일어난 보드들의 복사본을 기존에 있던 보드옆에 붙여준다 => allBoards
+*/
+
+/* [source.droppableId]: boardCopy에서 
+        [키]:표현식은 es6 문법이다 key값에 표현식(변수,함수등)을 지정하는문법 */
 
 /*Object.keys() =>> 오브젝트가 가진 키가 나옴*/
