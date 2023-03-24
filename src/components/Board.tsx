@@ -3,7 +3,8 @@ import styled from "styled-components";
 import DraggableCard from "./DraggableCard";
 import { useForm } from "react-hook-form";
 import React from "react";
-import { ITodo } from "./../atoms";
+import { ITodo, toDoState } from "./../atoms";
+import { useSetRecoilState } from "recoil";
 
 const BroadWrapper = styled.div`
   padding-top: 20px;
@@ -57,8 +58,25 @@ interface IForm {
 
 function Board({ toDos, boardId }: IBoardProps) {
   const { register, handleSubmit, setValue } = useForm<IForm>();
+  const setToDos = useSetRecoilState(toDoState); //toDoState를 수정하기 위한것
   const onSubmit = ({ toDo }: IForm) => {
-    setValue("toDo", "");
+    const newToDo = {
+      id: Date.now(),
+      text: toDo,
+    };
+    //사용자가 새로운 보드를 생성하는 newToDo
+
+    setToDos((allBoards) => {
+      return {
+        ...allBoards,
+        [boardId]: [...allBoards[boardId], newToDo],
+      };
+    });
+    /* 이전에 보드에 있던 정보들을 그대로 나두고 현재 속한 board의 정보만
+    업데이트 하려면 / 바뀌는 보드id(todo,done등)을 찾고 원래 보드에 있던 
+    정보를 리턴, 새로운 정보를 업데이트 해준 뒤 모든 보드를 합쳐준다*/
+
+    setValue("toDo", ""); //submit 후 toDo가 빈값으로 됨
   };
 
   return (
@@ -90,6 +108,11 @@ function Board({ toDos, boardId }: IBoardProps) {
                 toDoText={toDo.text}
               />
               //DraggableCard 컴포넌트
+              /* DroppableBoard(Board)에서 DraggableCard(Card)로 
+              props를 전달할 때 todo 객체를 통채로 보내면 에러가 발생할 수 있으므로 
+              객체에서 값을 꺼내서 따로따로 보내야 함. 
+              todo={todo} (X)
+              todoId={todo.id} todoText={todo.text} (O)*/
             ))}
             {provided.placeholder}
           </Wrapper>
