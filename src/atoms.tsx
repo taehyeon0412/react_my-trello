@@ -13,7 +13,10 @@ interface IToDoState {
 export const toDoState = atom<IToDoState>({
   key: "toDo",
   default: {
-    "To Do": [],
+    "To Do": [
+      { id: 1, text: "이게되나" },
+      { id: 2, text: "이게되나" },
+    ],
     doing: [],
     done: [],
   },
@@ -21,4 +24,4 @@ export const toDoState = atom<IToDoState>({
 
 //"To Do"에만 ""있는 이유 => 띄어쓰기가 안되기때문에 ""로 감싸면 띄어쓰기 가능
 
-/* ToDoList */
+/* ToDoList id를 주는 이유 => 같은 문자열일때 id로 구분하기 위해서  */

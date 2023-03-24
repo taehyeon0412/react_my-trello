@@ -17,7 +17,9 @@ interface IDraggableCardProps {
 }
 
 function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
-  console.log(toDoId, "렌더링됨");
+  console.log(
+    `toDoId:${toDoId}, toDoText:${toDoText}, index:${index}, 렌더링됨`
+  );
   return (
     <Draggable draggableId={toDoId + ""} index={index}>
       {/* +string => number , number+""=>string */}

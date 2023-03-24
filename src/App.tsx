@@ -30,6 +30,7 @@ function App() {
 
     if (!destination) return;
     ///destination이 아닐결우 = 드롭한 곳이 똑같은 위치일경우 그냥 리턴한다
+
     if (destination?.droppableId === source.droppableId) {
       //같은 보드에서 변경이 있을 경우
 
@@ -37,15 +38,19 @@ function App() {
         const boardCopy = [...allBoards[source.droppableId]];
         //source.droppableId로 부터 array를 복사함
         //droppableId ==> array 이름 (To Do,doing등등)
+        const taskObj = boardCopy[source.index];
+        //boardCopy[source.index]에 있는 오브젝트를 받아옴
+        //source.index는 시작지점 index 번호
+        //boardCopy가 splice로 삭제되기전에 오브젝트들을 taskObj에 넣어둔다
 
         boardCopy.splice(source.index, 1);
-        //source.index는 드래그한 index 번호
-        boardCopy.splice(destination?.index, 0, draggableId);
+        //source.index는 시작지점 index 번호
+        boardCopy.splice(destination?.index, 0, taskObj);
         //destination.index는 드롭한 위치 index 번호
         /* draggableId는 toDo이다 단순 string일때는 (예시=> todo:["a","b"]) 
         (destination?.index, 0, draggableId)로 쓰면 되는데
         단순 string --> ToDoList로 바뀌면 array로 이루어진 board(오브젝트)라고 
-        알려주어야된다*/
+        알려주어야된다 그게 taskObj이다*/
 
         return {
           ...allBoards,
@@ -65,10 +70,13 @@ function App() {
       setToDos((allBoards) => {
         const sourceBoard = [...allBoards[source.droppableId]];
         //시작지점(드래그지점)
+        const taskObj = sourceBoard[source.index];
+        //sourceBoard[source.index]에 있는 오브젝트를 받아옴
+        //source.index는 시작지점 index 번호
         const destinationBoard = [...allBoards[destination.droppableId]];
         //끝지점(드롭지점)
         sourceBoard.splice(source.index, 1);
-        destinationBoard.splice(destination?.index, 0, draggableId);
+        destinationBoard.splice(destination?.index, 0, taskObj);
 
         return {
           ...allBoards,
