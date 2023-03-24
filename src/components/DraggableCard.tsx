@@ -45,3 +45,6 @@ React.memo(DraggableCard);
 /* snapshot 
 ==> isDragging: boolean
 Draggable이 활발하게 드래그 중이거나 드롭 애니메이션인 경우 true로 설정합니다. */
+
+/* ref = reference 
+=> 리액트 코드를 이용해 HTML 요소를 지정하고 가져올 수 있는 방법 */
