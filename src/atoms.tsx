@@ -13,9 +13,12 @@ interface IToDoState {
 export const toDoState = atom<IToDoState>({
   key: "toDo",
   default: {
-    "해야 할 일": [],
+    "해야 할 일": [
+      { id: 0, text: "코딩공부" },
+      { id: 1, text: "집청소" },
+    ],
     "하고 있는 일": [],
-    "끝 마친 일": [],
+    "끝 마친 일": [{ id: 2, text: "보드나 카드를 추가해 보세요!" }],
   },
 });
 

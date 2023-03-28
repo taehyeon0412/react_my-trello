@@ -10,7 +10,9 @@ const BroadWrapper = styled.div`
   padding-top: 20px;
   border-radius: 10px;
   background-color: ${(props) => props.theme.boardColor};
-  min-height: 200px;
+  min-height: 19rem;
+  min-width: 15rem;
+  width: 15rem;
   display: flex;
   flex-direction: column;
 `;

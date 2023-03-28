@@ -6,8 +6,7 @@ import Board from "./components/Board";
 
 const Wrapper = styled.div`
   display: flex;
-  max-width: 680px;
-  width: 100%;
+  width: auto;
   margin: 0 auto;
   justify-content: center;
   align-items: center;
@@ -16,9 +15,25 @@ const Wrapper = styled.div`
 
 const Boards = styled.div`
   display: grid;
-  width: 100%;
+  width: auto;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
+`;
+
+const Navigation = styled.div`
+  display: flex;
+  position: fixed;
+  padding: 2.5rem 3rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  background-color: ${(props) => props.theme.bgColor};
+`;
+
+const Title = styled.h1`
+  font-size: 2rem;
+  font-weight: 600;
+  transition: color 0.3s;
 `;
 
 function App() {
@@ -32,7 +47,7 @@ function App() {
     ///destination이 아닐결우 = 드롭한 곳이 똑같은 위치일경우 그냥 리턴한다
 
     if (destination?.droppableId === source.droppableId) {
-      //같은 보드에서 변경이 있을 경우
+      //
 
       setToDos((allBoards) => {
         const boardCopy = [...allBoards[source.droppableId]];
@@ -62,10 +77,10 @@ function App() {
         "To Do": boardCopy로 js는 알아듣는다
         정리하면 splice로 변경된 boardCopy를 source.droppableId에 넣는다는뜻*/
       });
-    }
+    } //같은 보드에서 변경이 있을 경우
 
     if (destination.droppableId !== source.droppableId) {
-      //다른 보드를 건너가서 변경이 있을 경우
+      //
 
       setToDos((allBoards) => {
         const sourceBoard = [...allBoards[source.droppableId]];
@@ -84,19 +99,25 @@ function App() {
           [destination.droppableId]: destinationBoard,
         };
       });
-    }
+    } //다른 보드를 건너가서 변경이 있을 경우
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Wrapper>
-        <Boards>
-          {Object.keys(toDos).map((boardId) => (
-            <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
-          ))}
-        </Boards>
-      </Wrapper>
-    </DragDropContext>
+    <>
+      <Navigation>
+        <Title>할 일</Title>
+        <Title>버튼만들기</Title>
+      </Navigation>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Wrapper>
+          <Boards>
+            {Object.keys(toDos).map((boardId) => (
+              <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
+            ))}
+          </Boards>
+        </Wrapper>
+      </DragDropContext>
+    </>
   );
 }
 
