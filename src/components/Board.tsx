@@ -32,7 +32,7 @@ const Wrapper = styled.div<IWrapperProps>`
   flex-grow: 1;
   /*flex-grow는 0보다 큰 값을 세팅하면 
   Flexible 박스로 변하면서 남은 여백을 메우는 속성*/
-  padding: 20px;
+  padding: 1rem 0.5rem;
 `;
 
 const Title = styled.h2`

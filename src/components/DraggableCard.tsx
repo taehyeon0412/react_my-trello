@@ -8,6 +8,10 @@ const Card = styled.div<{ isDragging: boolean }>`
   border-radius: 5px;
   margin-bottom: 5px;
   padding: 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
 `;
 
 interface IDraggableCardProps {
@@ -16,10 +20,16 @@ interface IDraggableCardProps {
   index: number;
 }
 
+const ButtonDiv = styled.div`
+  display: flex;
+  position: absolute;
+  right: 0.4rem;
+  gap: 2px;
+`;
+
+const Button = styled.button``;
+
 function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
-  console.log(
-    `toDoId:${toDoId}, toDoText:${toDoText}, index:${index}, 렌더링됨`
-  );
   return (
     <Draggable draggableId={toDoId + ""} index={index}>
       {/* +string => number , number+""=>string */}
@@ -30,7 +40,11 @@ function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          {toDoText}
+          <span>{toDoText}</span>
+          <ButtonDiv>
+            <Button>수정</Button>
+            <Button>삭제</Button>
+          </ButtonDiv>
         </Card>
       )}
     </Draggable>
