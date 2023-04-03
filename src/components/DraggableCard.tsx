@@ -24,6 +24,14 @@ interface IDraggableCardProps {
   boardId: string;
 }
 
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 5px;
+`;
+
 const ButtonDiv = styled.div`
   display: flex;
   position: absolute;
@@ -37,11 +45,22 @@ interface IForm {
   toDo: string;
 }
 
-const Form = styled.form``;
+const Form = styled.form`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
 
-const Input = styled.input``;
+const Input = styled.input`
+  width: 100%;
+  margin: none;
+  border: none;
+  padding: none;
+  background: transparent;
+`;
 
-const InputButton = styled.button``;
+const CancelButton = styled.button``;
 
 function DraggableCard({
   todoText,
@@ -75,6 +94,15 @@ function DraggableCard({
   };
   //카드 수정하기
 
+  const cardEditCancel = (event: any) => {
+    setEdit((prev) => false);
+    setValue("toDo", "");
+    if (event.key === `Enter`) {
+      event.preventDefault();
+    }
+  };
+  //수정시 취소버튼
+
   const cardDelete = () => {
     setToDos((allBoards) => {
       return {
@@ -99,14 +127,16 @@ function DraggableCard({
           {...provided.dragHandleProps}
         >
           {editing ? (
-            <Form onSubmit={handleSubmit(onValid)}>
-              <Input
-                {...register("toDo", { required: true })}
-                type="text"
-                placeholder="새로운 할 일을 적어주세요."
-              />
-              <InputButton>확인</InputButton>
-            </Form>
+            <Wrapper>
+              <Form onSubmit={handleSubmit(onValid)}>
+                <Input
+                  {...register("toDo", { required: true })}
+                  type="text"
+                  placeholder="새로운 할 일을 적어주세요."
+                />
+              </Form>
+              <CancelButton onClick={cardEditCancel}>x</CancelButton>
+            </Wrapper>
           ) : (
             <>
               {todoText}
