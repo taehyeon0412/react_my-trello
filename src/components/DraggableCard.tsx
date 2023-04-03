@@ -1,6 +1,8 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
+import { useSetRecoilState } from "recoil";
+import { toDoState, ITodo } from "../atoms";
 
 const Card = styled.div<{ isDragging: boolean }>`
   background-color: ${(props) =>
@@ -15,9 +17,10 @@ const Card = styled.div<{ isDragging: boolean }>`
 `;
 
 interface IDraggableCardProps {
-  toDoId: number;
-  toDoText: string;
   index: number;
+  todoId: number;
+  todoText: string;
+  boardId: string;
 }
 
 const ButtonDiv = styled.div`
@@ -29,9 +32,26 @@ const ButtonDiv = styled.div`
 
 const Button = styled.button``;
 
-function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
+function DraggableCard({
+  todoText,
+  todoId,
+  index,
+  boardId,
+}: IDraggableCardProps) {
+  const setToDos = useSetRecoilState(toDoState);
+
+  const cardDelete = () => {
+    setToDos((allBoards) => {
+      return {
+        ...allBoards,
+        [boardId]: [...allBoards[boardId].filter((toDo) => toDo.id !== todoId)],
+      };
+    });
+  };
+  //카드 지우기
+
   return (
-    <Draggable draggableId={toDoId + ""} index={index}>
+    <Draggable draggableId={todoId + ""} index={index}>
       {/* +string => number , number+""=>string */}
       {(provided, snapshot) => (
         <Card
@@ -40,10 +60,10 @@ function DraggableCard({ toDoId, toDoText, index }: IDraggableCardProps) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <span>{toDoText}</span>
+          <span>{todoText}</span>
           <ButtonDiv>
             <Button>수정</Button>
-            <Button>삭제</Button>
+            <Button onClick={cardDelete}>삭제</Button>
           </ButtonDiv>
         </Card>
       )}

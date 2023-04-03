@@ -106,8 +106,9 @@ function Board({ toDos, boardId }: IBoardProps) {
               <DraggableCard
                 key={toDo.id}
                 index={index}
-                toDoId={toDo.id}
-                toDoText={toDo.text}
+                todoId={toDo.id}
+                todoText={toDo.text}
+                boardId={boardId}
               />
               //DraggableCard 컴포넌트
               /* DroppableBoard(Board)에서 DraggableCard(Card)로 

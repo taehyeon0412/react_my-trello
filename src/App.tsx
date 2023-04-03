@@ -36,6 +36,15 @@ const Title = styled.h1`
   transition: color 0.3s;
 `;
 
+const ButtonDiv = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+
+const ThemeButton = styled.button``;
+
+const BoardButton = styled.button``;
+
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   const onDragEnd = (info: DropResult) => {
@@ -105,8 +114,11 @@ function App() {
   return (
     <>
       <Navigation>
-        <Title>할 일</Title>
-        <Title>버튼만들기</Title>
+        <Title>Memo Board</Title>
+        <ButtonDiv>
+          <BoardButton>보드추가</BoardButton>
+          <ThemeButton>테마버튼</ThemeButton>
+        </ButtonDiv>
       </Navigation>
       <DragDropContext onDragEnd={onDragEnd}>
         <Wrapper>
