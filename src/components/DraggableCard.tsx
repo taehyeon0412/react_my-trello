@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
-import { toDoState, ITodo } from "../atoms";
+import { toDoState } from "../atoms";
+import { useForm } from "react-hook-form";
 
 const Card = styled.div<{ isDragging: boolean }>`
   background-color: ${(props) =>
@@ -32,6 +33,16 @@ const ButtonDiv = styled.div`
 
 const Button = styled.button``;
 
+interface IForm {
+  toDo: string;
+}
+
+const Form = styled.form``;
+
+const Input = styled.input``;
+
+const InputButton = styled.button``;
+
 function DraggableCard({
   todoText,
   todoId,
@@ -39,16 +50,43 @@ function DraggableCard({
   boardId,
 }: IDraggableCardProps) {
   const setToDos = useSetRecoilState(toDoState);
+  const [editing, setEdit] = useState(false);
+  const { register, handleSubmit, setValue } = useForm<IForm>();
+
+  const onValid = ({ toDo }: IForm) => {
+    const editToDo = {
+      id: todoId,
+      text: toDo,
+    };
+    setToDos((allBoards) => {
+      const boardCopy = [...allBoards[boardId]];
+      boardCopy[index] = editToDo;
+      return {
+        ...allBoards,
+        [boardId]: boardCopy,
+      };
+    });
+    setValue("toDo", "");
+    setEdit((prev) => false);
+  };
+
+  const cardEdit = () => {
+    setEdit((prev) => true);
+  };
+  //카드 수정하기
 
   const cardDelete = () => {
     setToDos((allBoards) => {
       return {
         ...allBoards,
         [boardId]: [...allBoards[boardId].filter((toDo) => toDo.id !== todoId)],
+        //클릭한 todo.id와 같지 않은것만 다시 배열로 나타냄
       };
     });
   };
   //카드 지우기
+
+  console.log(boardId, todoId, todoText);
 
   return (
     <Draggable draggableId={todoId + ""} index={index}>
@@ -60,11 +98,24 @@ function DraggableCard({
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <span>{todoText}</span>
-          <ButtonDiv>
-            <Button>수정</Button>
-            <Button onClick={cardDelete}>삭제</Button>
-          </ButtonDiv>
+          {editing ? (
+            <Form onSubmit={handleSubmit(onValid)}>
+              <Input
+                {...register("toDo", { required: true })}
+                type="text"
+                placeholder="새로운 할 일을 적어주세요."
+              />
+              <InputButton>확인</InputButton>
+            </Form>
+          ) : (
+            <>
+              {todoText}
+              <ButtonDiv>
+                <Button onClick={cardEdit}>수정</Button>
+                <Button onClick={cardDelete}>삭제</Button>
+              </ButtonDiv>
+            </>
+          )}
         </Card>
       )}
     </Draggable>
