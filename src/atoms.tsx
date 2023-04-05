@@ -41,3 +41,8 @@ export const toDoState = atom<IToDoState>({
 //"To Do"에만 ""있는 이유 => 띄어쓰기가 안되기때문에 ""로 감싸면 띄어쓰기 가능
 
 /* ToDoList id를 주는 이유 => 같은 문자열일때 id로 구분하기 위해서  */
+
+/* 1.useRecoilState  => 읽고 쓰기 가능
+2.useRecoilValue  => only 읽기만 가능 
+3.useSetRecoilState => only 쓰기만 가능 
+4.useResetRecoilState => atom이나 selector의 값을 초기화하고 싶을 때 사용 */
