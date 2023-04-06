@@ -175,6 +175,20 @@ function Board({ toDos, boardId }: IBoardProps) {
   };
   //보드 이름 수정 취소버튼
 
+  const removeBoard = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    boardId: string
+  ) => {
+    setToDos((allBoards) => {
+      const { [boardId]: _, ...rest } = allBoards;
+      /* _ boardId 키가 allBoards 개체에서 제거되어야 함을 지정하는 데 사용
+      _변수는 값이 필요하지 않으며 무시할 수 있음을 나타내기 위해
+      JavaScript에서 사용되는 규칙 */
+      return { ...rest };
+    });
+  };
+  //보드 삭제
+
   return (
     <BroadWrapper>
       {editing ? (
@@ -208,7 +222,13 @@ function Board({ toDos, boardId }: IBoardProps) {
             >
               수정
             </Button>
-            <Button>삭제</Button>
+            <Button
+              onClick={(event) => {
+                removeBoard(event, boardId);
+              }}
+            >
+              삭제
+            </Button>
           </ButtonDiv>
         </Title>
       )}
