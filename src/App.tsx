@@ -6,25 +6,23 @@ import Board from "./components/Board";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 
+const FullScreen = styled.div``;
+
 const Wrapper = styled.div`
   display: flex;
-  width: auto;
+  width: 100%;
   margin: 0 auto;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
-const Boards = styled.div`
-  display: grid;
-  width: auto;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: calc(100vh - 10rem);
+  margin-right: 2rem;
+  margin-top: 3rem;
+  margin-left: 2rem;
+  gap: 1rem;
 `;
 
 const Navigation = styled.div`
   display: flex;
-  position: fixed;
   padding: 2.5rem 3rem;
   align-items: center;
   justify-content: space-between;
@@ -46,6 +44,20 @@ const ButtonDiv = styled.div`
 const ThemeButton = styled.button``;
 
 const BoardAddButton = styled.button``;
+
+const AddBoardDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 30rem;
+  height: 17rem;
+  background-color: black;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+`;
 
 interface IAddBoard {
   boardId: string;
@@ -141,19 +153,22 @@ function App() {
   //새로운 보드 추가
 
   return (
-    <>
+    <FullScreen>
+      {addingBoard && (
+        <AddBoardDiv>
+          <form onSubmit={handleSubmit(addBoard)}>
+            <input
+              {...register("boardId", { required: true })}
+              type="text"
+              placeholder="이름입력하세요"
+            />
+          </form>
+        </AddBoardDiv>
+      )}
+
       <Navigation>
         <Title>Memo Board</Title>
         <ButtonDiv>
-          {addingBoard && (
-            <form onSubmit={handleSubmit(addBoard)}>
-              <input
-                {...register("boardId", { required: true })}
-                type="text"
-                placeholder="이름입력하세요"
-              />
-            </form>
-          )}
           <BoardAddButton onClick={onClickAddBoard}>보드추가</BoardAddButton>
           <ThemeButton>테마버튼</ThemeButton>
         </ButtonDiv>
@@ -161,14 +176,12 @@ function App() {
 
       <DragDropContext onDragEnd={onDragEnd}>
         <Wrapper>
-          <Boards>
-            {Object.keys(toDos).map((boardId) => (
-              <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
-            ))}
-          </Boards>
+          {Object.keys(toDos).map((boardId) => (
+            <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
+          ))}
         </Wrapper>
       </DragDropContext>
-    </>
+    </FullScreen>
   );
 }
 
