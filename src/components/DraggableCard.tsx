@@ -10,7 +10,7 @@ const Card = styled.div<{ isDragging: boolean }>`
     props.isDragging ? "#74b9ff" : props.theme.cardColor};
   border-radius: 5px;
   margin-bottom: 5px;
-  padding: 10px 10px;
+  padding: 15px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -50,6 +50,8 @@ const Form = styled.form`
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 100%;
+  margin: none;
 `;
 
 const Input = styled.input`

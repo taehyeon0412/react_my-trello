@@ -56,10 +56,20 @@ const Button = styled.button``;
 
 const CancelButton = styled.button``;
 
-const EditInput = styled.input``;
+const EditInput = styled.input`
+  height: 2rem;
+  width: 100%;
+  margin: none;
+  border: none;
+  padding: none;
+  background: transparent;
+`;
 
 const BoardEditForm = styled.form`
   display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `;
 
 interface IBoardProps {
@@ -67,11 +77,21 @@ interface IBoardProps {
   boardId: string;
 }
 
-const Form = styled.form`
+const NewCardForm = styled.form`
+  display: flex;
+  align-items: center;
   width: 100%;
-  input {
-    width: 100%;
-  }
+  position: relative;
+`;
+
+const NewCardInput = styled.input`
+  width: 100%;
+`;
+
+const NewCardButton = styled.button`
+  display: flex;
+  position: absolute;
+  right: 0%;
 `;
 
 interface IForm {
@@ -150,19 +170,10 @@ function Board({ toDos, boardId }: IBoardProps) {
 
   // 보드 이름 수정 끝
 
-  /*   const boardEditCancel = () => {
+  const boardEditCancel = () => {
     setEditing((prev) => false);
-    setNewBoardName("");
-  }; */
-
-  /* const cardEditCancel = (event: any) => {
-    setEditing((prev) => !prev);
-    setNewBoardName("");
-
-    if (event.key === `Enter`) {
-      event.preventDefault();
-    }
-  }; */
+  };
+  //보드 이름 수정 취소버튼
 
   return (
     <BroadWrapper>
@@ -175,12 +186,14 @@ function Board({ toDos, boardId }: IBoardProps) {
           >
             <EditInput
               type="text"
-              placeholder={boardId}
+              placeholder={`새로운 보드명을 입력해 주세요`}
               onChange={editInput}
               required
             />
             <ButtonDiv>
-              <CancelButton /* onClick={boardEditCancel} */>x</CancelButton>
+              <CancelButton type="button" onClick={boardEditCancel}>
+                x
+              </CancelButton>
             </ButtonDiv>
           </BoardEditForm>
         </Title>
@@ -200,13 +213,6 @@ function Board({ toDos, boardId }: IBoardProps) {
         </Title>
       )}
 
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          {...register("toDo", { required: true })}
-          type="text"
-          placeholder={`추가 할 ${boardId}`}
-        />
-      </Form>
       <Droppable droppableId={boardId}>
         {(provided, snapshot) => (
           <Wrapper
@@ -235,6 +241,14 @@ function Board({ toDos, boardId }: IBoardProps) {
           </Wrapper>
         )}
       </Droppable>
+      <NewCardForm onSubmit={handleSubmit(onSubmit)}>
+        <NewCardInput
+          {...register("toDo", { required: true })}
+          type="text"
+          placeholder={`${boardId} 추가하기`}
+        />
+        <NewCardButton>+</NewCardButton>
+      </NewCardForm>
     </BroadWrapper>
   );
 }
