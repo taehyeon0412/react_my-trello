@@ -10,11 +10,11 @@ const FullScreen = styled.div``;
 
 const Wrapper = styled.div`
   display: flex;
-  width: 100%;
+  width: auto;
   margin: 0 auto;
   justify-content: flex-start;
   align-items: flex-start;
-  height: calc(100vh - 10rem);
+  height: calc(100vh - 15rem);
   margin-right: 2rem;
   margin-top: 3rem;
   margin-left: 2rem;

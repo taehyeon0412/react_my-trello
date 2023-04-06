@@ -15,6 +15,7 @@ const BroadWrapper = styled.div`
   width: 15rem;
   display: flex;
   flex-direction: column;
+  max-height: calc(100vh - 15rem);
 `;
 
 interface IWrapperProps {
@@ -22,17 +23,32 @@ interface IWrapperProps {
   draggingFromThisWith: boolean;
 }
 
-const Wrapper = styled.div<IWrapperProps>`
+const Wrapper = styled.ul<IWrapperProps>`
   background-color: ${(props) =>
     props.isDraggingOver
-      ? "#dfe6e9"
+      ? "#f3fad2"
       : props.draggingFromThisWith
-      ? "#b2bec3"
+      ? "#f6a1a6"
       : "transparent"};
   flex-grow: 1;
   /*flex-grow는 0보다 큰 값을 세팅하면 
   Flexible 박스로 변하면서 남은 여백을 메우는 속성*/
   padding: 1rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 12rem);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 0.6rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #bababa;
+    border-radius: 0.3rem;
+    background-clip: padding-box;
+    border: 0.2rem solid transparent;
+    transition: background-color 0.3s;
+  }
 `;
 
 const Title = styled.div`
