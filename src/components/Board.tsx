@@ -11,8 +11,7 @@ const BroadWrapper = styled.div`
   border-radius: 10px;
   background-color: ${(props) => props.theme.boardColor};
   min-height: 20rem;
-  min-width: 15rem;
-  width: 15rem;
+  min-width: 16rem;
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 15rem);
@@ -33,12 +32,13 @@ const Wrapper = styled.ul<IWrapperProps>`
   flex-grow: 1;
   /*flex-grow는 0보다 큰 값을 세팅하면 
   Flexible 박스로 변하면서 남은 여백을 메우는 속성*/
-  padding: 1rem 0.5rem;
+  padding: 1rem 0.7rem;
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 12rem);
   overflow-x: hidden;
   overflow-y: scroll;
+  overflow: overlay;
   &::-webkit-scrollbar {
     width: 0.6rem;
   }
