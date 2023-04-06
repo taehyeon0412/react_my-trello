@@ -5,7 +5,7 @@ export interface ITodo {
   text: string;
 }
 
-interface IToDoState {
+export interface IToDoState {
   [key: string]: ITodo[];
 }
 //[key: string] 객체의 키가 문자열임을 의미합니다

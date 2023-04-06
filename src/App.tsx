@@ -1,8 +1,10 @@
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
-import { toDoState } from "./atoms";
+import { IToDoState, toDoState } from "./atoms";
 import Board from "./components/Board";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -43,7 +45,11 @@ const ButtonDiv = styled.div`
 
 const ThemeButton = styled.button``;
 
-const BoardButton = styled.button``;
+const BoardAddButton = styled.button``;
+
+interface IAddBoard {
+  boardId: string;
+}
 
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
@@ -111,15 +117,48 @@ function App() {
     } //다른 보드를 건너가서 변경이 있을 경우
   };
 
+  const { register, setValue, handleSubmit } = useForm<IAddBoard>();
+  //보드 추가 폼
+  const [addingBoard, setAddToggle] = useState(false);
+  /* 버튼을 클릭할때 input이 나오면서 보드가 추가 되야되므로 if문을 이용할 수 있게
+      useState를 이용한다 */
+  const addBoard = ({ boardId }: IAddBoard) => {
+    setToDos((allBoards) => {
+      const newAddBoard: IToDoState = { [boardId]: [] };
+
+      return {
+        ...allBoards,
+        ...newAddBoard,
+      };
+    });
+    setAddToggle((prev) => !prev);
+    setValue("boardId", "");
+  };
+
+  const onClickAddBoard = () => {
+    setAddToggle((prev) => !prev);
+  };
+  //새로운 보드 추가
+
   return (
     <>
       <Navigation>
         <Title>Memo Board</Title>
         <ButtonDiv>
-          <BoardButton>보드추가</BoardButton>
+          {addingBoard && (
+            <form onSubmit={handleSubmit(addBoard)}>
+              <input
+                {...register("boardId", { required: true })}
+                type="text"
+                placeholder="이름입력하세요"
+              />
+            </form>
+          )}
+          <BoardAddButton onClick={onClickAddBoard}>보드추가</BoardAddButton>
           <ThemeButton>테마버튼</ThemeButton>
         </ButtonDiv>
       </Navigation>
+
       <DragDropContext onDragEnd={onDragEnd}>
         <Wrapper>
           <Boards>
