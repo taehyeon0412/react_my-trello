@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
@@ -77,9 +77,11 @@ function DraggableCard({
       id: todoId,
       text: toDo,
     };
+
     setToDos((allBoards) => {
       const boardCopy = [...allBoards[boardId]];
       boardCopy[index] = editToDo;
+
       return {
         ...allBoards,
         [boardId]: boardCopy,
@@ -97,6 +99,7 @@ function DraggableCard({
   const cardEditCancel = (event: any) => {
     setEdit((prev) => false);
     setValue("toDo", "");
+
     if (event.key === `Enter`) {
       event.preventDefault();
     }
@@ -114,7 +117,7 @@ function DraggableCard({
   };
   //카드 지우기
 
-  console.log(boardId, todoId, todoText);
+  console.log(boardId, todoId, todoText, index);
 
   return (
     <Draggable draggableId={todoId + ""} index={index}>

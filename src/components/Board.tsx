@@ -2,7 +2,7 @@ import { Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import DraggableCard from "./DraggableCard";
 import { useForm } from "react-hook-form";
-import React from "react";
+import React, { useState } from "react";
 import { ITodo, toDoState } from "./../atoms";
 import { useSetRecoilState } from "recoil";
 
@@ -35,11 +35,31 @@ const Wrapper = styled.div<IWrapperProps>`
   padding: 1rem 0.5rem;
 `;
 
-const Title = styled.h2`
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 5px;
+`;
+
+const TitleSpan = styled.h2`
   text-align: center;
-  font-weight: 600;
+  font-weight: 800;
   margin-bottom: 10px;
-  font-size: 18px;
+  font-size: 1.4rem;
+  margin-left: 0.5rem;
+`;
+
+const ButtonDiv = styled.div``;
+
+const Button = styled.button``;
+
+const CancelButton = styled.button``;
+
+const EditInput = styled.input``;
+
+const BoardEditForm = styled.form`
+  display: flex;
 `;
 
 interface IBoardProps {
@@ -61,12 +81,15 @@ interface IForm {
 function Board({ toDos, boardId }: IBoardProps) {
   const { register, handleSubmit, setValue } = useForm<IForm>();
   const setToDos = useSetRecoilState(toDoState); //toDoState를 수정하기 위한것
+  const [newBoardName, setNewBoardName] = useState(""); // 보드 이름수정 스테이트
+  const [editing, setEditing] = useState(false);
+
+  //사용자가 새로운 카드를 생성하는 newToDo 시작
   const onSubmit = ({ toDo }: IForm) => {
     const newToDo = {
       id: Date.now(),
       text: toDo,
     };
-    //사용자가 새로운 보드를 생성하는 newToDo
 
     setToDos((allBoards) => {
       return {
@@ -80,10 +103,102 @@ function Board({ toDos, boardId }: IBoardProps) {
 
     setValue("toDo", ""); //submit 후 toDo가 빈값으로 됨
   };
+  //사용자가 새로운 카드를 생성하는 newToDo 끝
+
+  // 보드 이름 수정 시작
+  const editBoardName = (event: React.FormEvent, boardId: string) => {
+    event.preventDefault();
+    setToDos((allBoards) => {
+      const copyBoards = allBoards;
+      const editName = { [boardId]: newBoardName };
+
+      const newBoardsArray = [copyBoards].map((obj) =>
+        Object.fromEntries(
+          Object.entries(obj).map(([key, value]) => [
+            editName[key] ?? key, //??(물음표2개- null,undefine만 리턴)
+            value,
+          ])
+        )
+      )[0];
+
+      const newBoards = { ...newBoardsArray };
+      return {
+        ...newBoards,
+      };
+    });
+    setNewBoardName(""); //빈칸으로 초기화
+    setEditing((prev) => !prev);
+  };
+
+  /*Object.entries()와 Object.fromEntries()를 순차적으로 적용하면 객체에 배열 전용 메서드를 사용할 수 있다. 
+  Object.entries(obj)를 사용해 객체의 키-값 쌍이 요소인 배열을 얻는다.
+  */
+
+  const editInput = (event: React.FormEvent<HTMLInputElement>) => {
+    const {
+      currentTarget: { value },
+    } = event;
+    setNewBoardName(value);
+  };
+
+  const editButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    boardId: string
+  ) => {
+    setEditing((prev) => !prev);
+  };
+
+  // 보드 이름 수정 끝
+
+  /*   const boardEditCancel = () => {
+    setEditing((prev) => false);
+    setNewBoardName("");
+  }; */
+
+  /* const cardEditCancel = (event: any) => {
+    setEditing((prev) => !prev);
+    setNewBoardName("");
+
+    if (event.key === `Enter`) {
+      event.preventDefault();
+    }
+  }; */
 
   return (
     <BroadWrapper>
-      <Title>{boardId}</Title>
+      {editing ? (
+        <Title>
+          <BoardEditForm
+            onSubmit={(event) => {
+              editBoardName(event, boardId);
+            }}
+          >
+            <EditInput
+              type="text"
+              placeholder={boardId}
+              onChange={editInput}
+              required
+            />
+            <ButtonDiv>
+              <CancelButton /* onClick={boardEditCancel} */>x</CancelButton>
+            </ButtonDiv>
+          </BoardEditForm>
+        </Title>
+      ) : (
+        <Title>
+          <TitleSpan>{boardId}</TitleSpan>
+          <ButtonDiv>
+            <Button
+              onClick={(event) => {
+                editButtonClick(event, boardId);
+              }}
+            >
+              수정
+            </Button>
+            <Button>삭제</Button>
+          </ButtonDiv>
+        </Title>
+      )}
 
       <Form onSubmit={handleSubmit(onSubmit)}>
         <input
@@ -92,7 +207,6 @@ function Board({ toDos, boardId }: IBoardProps) {
           placeholder={`추가 할 ${boardId}`}
         />
       </Form>
-
       <Droppable droppableId={boardId}>
         {(provided, snapshot) => (
           <Wrapper
