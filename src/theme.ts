@@ -5,6 +5,11 @@ export const darkTheme: DefaultTheme = {
   boardColor: "#57606f",
   cardColor: "#BDBDBD",
   buttonColor: "#ededed",
+  colors: {
+    one: "#4a95f6",
+    two: "#403798",
+    three: "#4665ca",
+  },
 };
 
 export const whiteTheme: DefaultTheme = {
@@ -12,4 +17,9 @@ export const whiteTheme: DefaultTheme = {
   boardColor: "#efefef",
   cardColor: "#ffffff",
   buttonColor: "#555555",
+  colors: {
+    one: "#4a95f6",
+    two: "#403798",
+    three: "#4665ca",
+  },
 };

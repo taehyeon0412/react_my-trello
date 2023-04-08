@@ -41,7 +41,7 @@ const ButtonDiv = styled.div`
   gap: 5px;
 `;
 
-const ThemeButton = styled.button``;
+/* const ThemeButton = styled.button``; */
 
 const BoardAddButton = styled.button``;
 
@@ -170,7 +170,6 @@ function App() {
         <Title>Memo Board</Title>
         <ButtonDiv>
           <BoardAddButton onClick={onClickAddBoard}>보드추가</BoardAddButton>
-          <ThemeButton>테마버튼</ThemeButton>
         </ButtonDiv>
       </Navigation>
 
