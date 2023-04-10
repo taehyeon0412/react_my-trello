@@ -5,6 +5,30 @@ import { useSetRecoilState } from "recoil";
 import { toDoState } from "../atoms";
 import { useForm } from "react-hook-form";
 
+const ButtonDiv = styled.div`
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  right: 0.4rem;
+  gap: 2px;
+  height: 100%;
+`;
+
+const Button = styled.button`
+  height: 2rem;
+  width: 2rem;
+  border-color: transparent;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  &:hover {
+    background-color: ${(props) => props.theme.buttonColor};
+  }
+  i {
+    color: #706e6e;
+  }
+`;
+
 const Card = styled.div<{ isDragging: boolean }>`
   background-color: ${(props) =>
     props.isDragging ? "#74b9ff" : props.theme.cardColor};
@@ -15,6 +39,9 @@ const Card = styled.div<{ isDragging: boolean }>`
   justify-content: space-between;
   align-items: center;
   position: relative;
+  &:not(:hover):not(:focus-within) ${ButtonDiv} {
+    opacity: 0;
+  }
 `;
 
 interface IDraggableCardProps {
@@ -32,15 +59,6 @@ const Wrapper = styled.div`
   gap: 5px;
 `;
 
-const ButtonDiv = styled.div`
-  display: flex;
-  position: absolute;
-  right: 0.4rem;
-  gap: 2px;
-`;
-
-const Button = styled.button``;
-
 interface IForm {
   toDo: string;
 }
@@ -56,13 +74,30 @@ const Form = styled.form`
 
 const Input = styled.input`
   width: 100%;
+  height: auto;
   margin: none;
   border: none;
   padding: none;
   background: transparent;
+  outline: transparent;
 `;
 
-const CancelButton = styled.button``;
+const CancelButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.7rem;
+  width: 1.7rem;
+  border-color: transparent;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  &:hover {
+    background-color: ${(props) => props.theme.buttonColor};
+  }
+  i {
+    color: #706e6e;
+  }
+`;
 
 function DraggableCard({
   todoText,
@@ -140,14 +175,20 @@ function DraggableCard({
                   placeholder="새로운 할 일을 적어주세요."
                 />
               </Form>
-              <CancelButton onClick={cardEditCancel}>x</CancelButton>
+              <CancelButton onClick={cardEditCancel}>
+                <i className="fa-solid fa-circle-xmark"></i>
+              </CancelButton>
             </Wrapper>
           ) : (
             <>
               {todoText}
               <ButtonDiv>
-                <Button onClick={cardEdit}>수정</Button>
-                <Button onClick={cardDelete}>삭제</Button>
+                <Button onClick={cardEdit}>
+                  <i className="fa-solid fa-pen"></i>
+                </Button>
+                <Button onClick={cardDelete}>
+                  <i className="fa-solid fa-trash"></i>
+                </Button>
               </ButtonDiv>
             </>
           )}

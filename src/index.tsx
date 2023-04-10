@@ -60,8 +60,9 @@ table {
 }
 body{
   font-family: 'Source Sans Pro', sans-serif;
-  background-color:${(props) => props.theme.bgColor};
+  background-image: radial-gradient(circle at 10% 10%, #4a95f6 30%,#4665ca 50%, #403798 80%);
   color: black;
+  height: 100vh;
 }
 a{
   text-decoration:none;

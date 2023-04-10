@@ -6,6 +6,44 @@ import React, { useState } from "react";
 import { ITodo, toDoState } from "./../atoms";
 import { useSetRecoilState } from "recoil";
 
+const ButtonDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 0.4rem;
+  gap: 2px;
+  height: 100%;
+  transition: opacity 0.3s;
+`;
+
+const Button = styled.button`
+  height: 2rem;
+  width: 2rem;
+  border-color: transparent;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  &:hover {
+    background-color: ${(props) => props.theme.buttonColor};
+  }
+  i {
+    color: #706e6e;
+  }
+`;
+
+const CancelButton = styled.button`
+  height: 2rem;
+  width: 2rem;
+  border-color: transparent;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  &:hover {
+    background-color: ${(props) => props.theme.buttonColor};
+  }
+  i {
+    color: #706e6e;
+  }
+`;
+
 const BroadWrapper = styled.div`
   padding-top: 20px;
   border-radius: 10px;
@@ -15,7 +53,11 @@ const BroadWrapper = styled.div`
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 15rem);
+  &:not(:hover):not(:focus-within) ${ButtonDiv} {
+    opacity: 0;
+  }
 `;
+//보드 전체
 
 interface IWrapperProps {
   isDraggingOver: boolean;
@@ -66,12 +108,6 @@ const TitleSpan = styled.h2`
   margin-left: 0.5rem;
 `;
 
-const ButtonDiv = styled.div``;
-
-const Button = styled.button``;
-
-const CancelButton = styled.button``;
-
 const EditInput = styled.input`
   height: 2rem;
   width: 100%;
@@ -79,6 +115,7 @@ const EditInput = styled.input`
   border: none;
   padding: none;
   background: transparent;
+  outline: transparent;
 `;
 
 const BoardEditForm = styled.form`
@@ -102,12 +139,31 @@ const NewCardForm = styled.form`
 
 const NewCardInput = styled.input`
   width: 100%;
+  background-color: ${(props) => props.theme.boardColor};
+  height: 2.5rem;
+  border-radius: 0rem 0rem 0.5rem 0.5rem;
+  border-color: transparent;
+  outline: transparent;
+  &:focus {
+    border-color: #fdde75;
+  }
 `;
 
 const NewCardButton = styled.button`
   display: flex;
   position: absolute;
   right: 0%;
+  height: 1.8rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  border-color: ${(props) => props.theme.boardColor};
+  &:hover {
+    background-color: ${(props) => props.theme.buttonColor};
+  }
+  i {
+    color: #706e6e;
+  }
 `;
 
 interface IForm {
@@ -222,7 +278,7 @@ function Board({ toDos, boardId }: IBoardProps) {
             />
             <ButtonDiv>
               <CancelButton type="button" onClick={boardEditCancel}>
-                x
+                <i className="fa-solid fa-circle-xmark"></i>
               </CancelButton>
             </ButtonDiv>
           </BoardEditForm>
@@ -236,14 +292,14 @@ function Board({ toDos, boardId }: IBoardProps) {
                 editButtonClick(event, boardId);
               }}
             >
-              수정
+              <i className="fa-solid fa-pen"></i>
             </Button>
             <Button
               onClick={(event) => {
                 removeBoard(event, boardId);
               }}
             >
-              삭제
+              <i className="fa-solid fa-trash"></i>
             </Button>
           </ButtonDiv>
         </Title>
@@ -283,7 +339,9 @@ function Board({ toDos, boardId }: IBoardProps) {
           type="text"
           placeholder={`${boardId} 추가하기`}
         />
-        <NewCardButton>+</NewCardButton>
+        <NewCardButton>
+          <i className="fa-solid fa-plus"></i>
+        </NewCardButton>
       </NewCardForm>
     </BroadWrapper>
   );

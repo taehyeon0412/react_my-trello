@@ -27,7 +27,6 @@ const Navigation = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100vw;
-  background-color: ${(props) => props.theme.bgColor};
 `;
 
 const Title = styled.h1`
@@ -43,7 +42,19 @@ const ButtonDiv = styled.div`
 
 /* const ThemeButton = styled.button``; */
 
-const BoardAddButton = styled.button``;
+const BoardAddButton = styled.button`
+  height: 2.5rem;
+  width: 2.5rem;
+  border-color: transparent;
+  border-radius: 2rem;
+  background-color: ${(props) => props.theme.boardColor};
+  &:hover {
+    background-color: ${(props) => props.theme.bgColor};
+  }
+  i {
+    color: #706e6e;
+  }
+`;
 
 const AddBoardDiv = styled.div`
   display: flex;
@@ -169,7 +180,9 @@ function App() {
       <Navigation>
         <Title>Memo Board</Title>
         <ButtonDiv>
-          <BoardAddButton onClick={onClickAddBoard}>보드추가</BoardAddButton>
+          <BoardAddButton onClick={onClickAddBoard}>
+            <i className="fa-solid fa-plus"></i>
+          </BoardAddButton>
         </ButtonDiv>
       </Navigation>
 
