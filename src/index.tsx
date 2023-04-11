@@ -60,7 +60,7 @@ table {
 }
 body{
   font-family: 'Source Sans Pro', sans-serif;
-  background-image: radial-gradient(circle at 10% 10%, #4a95f6 10%,#4665ca 30%, #403798 80%);
+  background-image: radial-gradient(circle at 10% 10%, #4a95f6 10%,#4665ca 30%, #403798 80%, #4a95f6 100%);
   color: black;
   height: 100vh;
   overflow-y: hidden;

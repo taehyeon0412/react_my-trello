@@ -20,10 +20,15 @@ const Wrapper = styled.div`
   margin-top: 3rem;
   margin-left: 2rem;
   gap: 1rem;
+  padding-top: 8rem;
 `;
 
 const Navigation = styled.div`
   display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   padding: 2.5rem 3rem;
   align-items: center;
   justify-content: space-between;
@@ -49,6 +54,7 @@ const BoardAddButton = styled.button`
   border-color: transparent;
   border-radius: 2rem;
   background-color: ${(props) => props.theme.boardColor};
+  outline: transparent;
   &:hover {
     background-color: ${(props) => props.theme.bgColor};
     cursor: pointer;
@@ -106,6 +112,7 @@ const modalCustomStyles = {
     transform: "translate(-12.5rem, -6.25rem)",
   },
 };
+//보드 모달 css
 
 interface IAddBoard {
   boardId: string;

@@ -44,7 +44,7 @@ export const toDoState = atom<IToDoState>({
       { id: 13, text: "세" },
       { id: 14, text: "요" },
     ],
-    "하고 있는 일": [{ id: 15, text: "집청소" }],
+    "하고 있는 일": [{ id: 15, text: "마우스를 위에 올려보세요." }],
     "끝 마친 일": [{ id: 2, text: "보드나 카드를 추가해 보세요!" }],
   },
   effects: [localStorageEffect(`saved-To-Do-data`)],
