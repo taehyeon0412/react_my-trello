@@ -31,7 +31,7 @@ const Button = styled.button`
   }
 `;
 
-const BroadWrapper = styled.div`
+const BroadWrapper = styled.div<{ editing?: boolean }>`
   padding-top: 20px;
   border-radius: 10px;
   background-color: ${(props) => props.theme.boardColor};
@@ -47,7 +47,7 @@ const BroadWrapper = styled.div`
   position: relative;
   &:hover > :first-child,
   &:focus-within > :first-child {
-    width: 11.5rem;
+    width: ${(props) => (props.editing ? null : "11.5rem")};
     transition: width 0.3s;
   }
 `;
@@ -85,6 +85,7 @@ const TitleSpan = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  transition: width 0.3s;
 `;
 
 interface IWrapperProps {

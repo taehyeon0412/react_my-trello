@@ -30,7 +30,14 @@ const Button = styled.button`
   }
 `;
 
-const Card = styled.div<{ isDragging: boolean }>`
+const CardSpanDiv = styled.div``;
+
+interface CardProps {
+  isDragging: boolean;
+  editing?: boolean;
+}
+
+const Card = styled.div<CardProps>`
   background-color: ${(props) =>
     props.isDragging ? "#74b9ff" : props.theme.cardColor};
   border-radius: 5px;
@@ -51,9 +58,8 @@ const Card = styled.div<{ isDragging: boolean }>`
     transition: width 0.3s;
     margin-top: 0.1rem;
   }
-  &:hover > :first-child,
-  &:focus-within > :first-child {
-    width: 8.75rem;
+  &:hover > ${CardSpanDiv}, &:focus-within > ${CardSpanDiv} {
+    width: ${(props) => (props.editing ? null : "8.75rem")};
   }
 `;
 
@@ -195,7 +201,7 @@ function DraggableCard({
             </Wrapper>
           ) : (
             <>
-              <div>{todoText}</div>
+              <CardSpanDiv>{todoText}</CardSpanDiv>
               <ButtonDiv>
                 <Button onClick={cardEdit}>
                   <i className="fa-solid fa-pen"></i>
