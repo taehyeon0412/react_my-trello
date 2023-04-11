@@ -85,7 +85,7 @@ const AddBoardCancelBtn = styled.button`
 
 const AddBoardForm = styled.form`
   input {
-    margin-top: 2rem;
+    margin-top: 3rem;
     width: 100%;
     height: 3rem;
     padding-left: 1rem;
@@ -99,11 +99,11 @@ const modalCustomStyles = {
   content: {
     backgroundColor: "#f5f5f5",
     borderRadius: "1.5rem",
-    top: "55%",
+    width: "25rem",
+    height: "12.5rem",
+    top: "50%",
     left: "50%",
-    right: "23%",
-    bottom: "25%",
-    transform: "translate(-50%, -55%)",
+    transform: "translate(-12.5rem, -6.25rem)",
   },
 };
 
