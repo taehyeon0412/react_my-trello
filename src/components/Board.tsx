@@ -8,30 +8,15 @@ import { useSetRecoilState } from "recoil";
 
 const ButtonDiv = styled.div`
   display: flex;
+  position: absolute;
   align-items: center;
   justify-content: center;
   right: 0.4rem;
   gap: 2px;
-  height: 100%;
   transition: opacity 0.3s;
 `;
 
 const Button = styled.button`
-  height: 2rem;
-  width: 2rem;
-  border-color: transparent;
-  border-radius: 0.5rem;
-  background-color: transparent;
-  &:hover {
-    background-color: ${(props) => props.theme.buttonColor};
-    cursor: pointer;
-  }
-  i {
-    color: #706e6e;
-  }
-`;
-
-const CancelButton = styled.button`
   height: 2rem;
   width: 2rem;
   border-color: transparent;
@@ -52,14 +37,55 @@ const BroadWrapper = styled.div`
   background-color: ${(props) => props.theme.boardColor};
   min-height: 20rem;
   min-width: 16rem;
+  max-width: 16rem;
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 15rem);
   &:not(:hover):not(:focus-within) ${ButtonDiv} {
     opacity: 0;
   }
+  position: relative;
+  &:hover > :first-child,
+  &:focus-within > :first-child {
+    width: 11.5rem;
+    transition: width 0.3s;
+  }
 `;
 //보드 전체
+
+const CancelButton = styled.button`
+  height: 2rem;
+  width: 2rem;
+  border-color: transparent;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  &:hover {
+    background-color: ${(props) => props.theme.buttonColor};
+    cursor: pointer;
+  }
+  i {
+    color: #706e6e;
+  }
+`;
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 5px;
+`;
+
+const TitleSpan = styled.div`
+  font-weight: 800;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  margin-left: 0.5rem;
+
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+`;
 
 interface IWrapperProps {
   isDraggingOver: boolean;
@@ -95,21 +121,6 @@ const Wrapper = styled.ul<IWrapperProps>`
   }
 `;
 
-const Title = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 5px;
-`;
-
-const TitleSpan = styled.h2`
-  text-align: center;
-  font-weight: 800;
-  margin-bottom: 10px;
-  font-size: 1.4rem;
-  margin-left: 0.5rem;
-`;
-
 const EditInput = styled.input`
   height: 2rem;
   width: 100%;
@@ -118,6 +129,7 @@ const EditInput = styled.input`
   padding: none;
   background: transparent;
   outline: transparent;
+  font-weight: 700;
 `;
 
 const BoardEditForm = styled.form`
@@ -277,7 +289,7 @@ function Board({ toDos, boardId }: IBoardProps) {
           >
             <EditInput
               type="text"
-              placeholder={`새로운 보드명을 입력해 주세요`}
+              placeholder={`  보드명을 입력해 주세요.`}
               onChange={editInput}
               required
             />

@@ -43,6 +43,18 @@ const Card = styled.div<{ isDragging: boolean }>`
   &:not(:hover):not(:focus-within) ${ButtonDiv} {
     opacity: 0;
   }
+  & > :first-child {
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: width 0.3s;
+    margin-top: 0.1rem;
+  }
+  &:hover > :first-child,
+  &:focus-within > :first-child {
+    width: 8.75rem;
+  }
 `;
 
 interface IDraggableCardProps {
@@ -183,7 +195,7 @@ function DraggableCard({
             </Wrapper>
           ) : (
             <>
-              {todoText}
+              <div>{todoText}</div>
               <ButtonDiv>
                 <Button onClick={cardEdit}>
                   <i className="fa-solid fa-pen"></i>

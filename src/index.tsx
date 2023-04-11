@@ -63,6 +63,7 @@ body{
   background-image: radial-gradient(circle at 10% 10%, #4a95f6 10%,#4665ca 30%, #403798 80%);
   color: black;
   height: 100vh;
+  overflow-y: hidden;
 }
 a{
   text-decoration:none;
