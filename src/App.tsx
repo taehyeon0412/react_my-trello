@@ -15,12 +15,13 @@ const Wrapper = styled.div`
   margin: 0 auto;
   justify-content: flex-start;
   align-items: flex-start;
-  height: calc(100vh - 15rem);
-  margin-right: 2rem;
+  height: 100vh;
   margin-top: 3rem;
   margin-left: 2rem;
+  margin-right: 1rem;
   gap: 1rem;
   padding-top: 8rem;
+  overflow: auto;
 `;
 
 const Navigation = styled.div`
@@ -49,12 +50,21 @@ const ButtonDiv = styled.div`
 /* const ThemeButton = styled.button``; */
 
 const BoardAddButton = styled.button`
+  position: absolute;
+  top: 30%;
+  right: 5%;
   height: 2.5rem;
   width: 2.5rem;
   border-color: transparent;
   border-radius: 2rem;
   background-color: ${(props) => props.theme.boardColor};
   outline: transparent;
+  box-shadow: 3px 3px 3px black;
+  &:active {
+    margin-left: 5px;
+    margin-top: 5px;
+    box-shadow: none;
+  }
   &:hover {
     background-color: ${(props) => props.theme.bgColor};
     cursor: pointer;
@@ -86,6 +96,12 @@ const AddBoardCancelBtn = styled.button`
   &:hover {
     background-color: ${(props) => props.theme.cardColor};
     cursor: pointer;
+  }
+  box-shadow: 3px 3px 3px black;
+  &:active {
+    margin-left: 5px;
+    margin-top: 5px;
+    box-shadow: none;
   }
 `;
 
