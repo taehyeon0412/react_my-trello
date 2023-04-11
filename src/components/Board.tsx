@@ -139,11 +139,13 @@ const NewCardForm = styled.form`
 
 const NewCardInput = styled.input`
   width: 100%;
+  padding-left: 0.6rem;
   background-color: ${(props) => props.theme.boardColor};
   height: 2.5rem;
   border-radius: 0rem 0rem 0.5rem 0.5rem;
   border-color: transparent;
   outline: transparent;
+  font-weight: 700;
   &:focus {
     border-color: #fdde75;
   }

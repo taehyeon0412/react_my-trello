@@ -4,7 +4,8 @@ import { useRecoilState } from "recoil";
 import { IToDoState, toDoState } from "./atoms";
 import Board from "./components/Board";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Modal from "react-modal";
 
 const FullScreen = styled.div``;
 
@@ -50,25 +51,34 @@ const BoardAddButton = styled.button`
   background-color: ${(props) => props.theme.boardColor};
   &:hover {
     background-color: ${(props) => props.theme.bgColor};
+    cursor: pointer;
   }
   i {
     color: #706e6e;
   }
 `;
 
-const AddBoardDiv = styled.div`
+const AddBoardTitle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  width: 30rem;
-  height: 17rem;
-  background-color: black;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
 `;
+
+const AddBoardCancelBtn = styled.button`
+  position: absolute;
+  right: 0.1rem;
+`;
+
+const modalCustomStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "70%",
+    bottom: "10rem",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 
 interface IAddBoard {
   boardId: string;
@@ -154,27 +164,46 @@ function App() {
         ...newAddBoard,
       };
     });
-    setAddToggle((prev) => !prev);
+    setAddToggle(false);
     setValue("boardId", "");
   };
 
   const onClickAddBoard = () => {
-    setAddToggle((prev) => !prev);
+    setAddToggle(true);
+    openModal();
   };
   //새로운 보드 추가
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+  //모달
+  function openModal() {
+    setIsOpen(true);
+  }
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   return (
     <FullScreen>
       {addingBoard && (
-        <AddBoardDiv>
+        <Modal
+          isOpen={modalIsOpen}
+          ariaHideApp={false}
+          onRequestClose={closeModal}
+          style={modalCustomStyles}
+        >
+          <AddBoardTitle>
+            보드 추가
+            <AddBoardCancelBtn onClick={closeModal}>x</AddBoardCancelBtn>
+          </AddBoardTitle>
           <form onSubmit={handleSubmit(addBoard)}>
             <input
               {...register("boardId", { required: true })}
               type="text"
-              placeholder="이름입력하세요"
+              placeholder="보드를 추가하세요."
             />
           </form>
-        </AddBoardDiv>
+        </Modal>
       )}
 
       <Navigation>

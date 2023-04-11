@@ -17,6 +17,7 @@
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.7",
+    "react-modal": "^3.16.1",
     "react-query": "^3.39.3",
     "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
@@ -52,6 +53,7 @@
   "devDependencies": {
     "@tanstack/react-query-devtools": "^4.28.0",
     "@types/react-beautiful-dnd": "^13.1.4",
+    "@types/react-modal": "^3.13.1",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26"
   }
