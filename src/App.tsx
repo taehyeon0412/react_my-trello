@@ -62,21 +62,48 @@ const AddBoardTitle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 3rem;
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
 `;
 
 const AddBoardCancelBtn = styled.button`
   position: absolute;
-  right: 0.1rem;
+  right: 1rem;
+  width: 2rem;
+  height: 2rem;
+  border: transparent;
+  border-radius: 20px;
+  background-color: ${(props) => props.theme.buttonColor};
+  &:hover {
+    background-color: ${(props) => props.theme.cardColor};
+    cursor: pointer;
+  }
+`;
+
+const AddBoardForm = styled.form`
+  input {
+    margin-top: 2rem;
+    width: 100%;
+    height: 3rem;
+    padding-left: 1rem;
+    border-radius: 10px;
+    border: transparent;
+    outline: transparent;
+  }
 `;
 
 const modalCustomStyles = {
   content: {
-    top: "50%",
+    backgroundColor: "#f5f5f5",
+    borderRadius: "1.5rem",
+    top: "55%",
     left: "50%",
-    right: "70%",
-    bottom: "10rem",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
+    right: "23%",
+    bottom: "25%",
+    transform: "translate(-50%, -55%)",
   },
 };
 
@@ -193,16 +220,16 @@ function App() {
           style={modalCustomStyles}
         >
           <AddBoardTitle>
-            보드 추가
+            <h1>보드 추가</h1>
             <AddBoardCancelBtn onClick={closeModal}>x</AddBoardCancelBtn>
           </AddBoardTitle>
-          <form onSubmit={handleSubmit(addBoard)}>
+          <AddBoardForm onSubmit={handleSubmit(addBoard)}>
             <input
               {...register("boardId", { required: true })}
               type="text"
               placeholder="보드를 추가하세요."
             />
-          </form>
+          </AddBoardForm>
         </Modal>
       )}
 

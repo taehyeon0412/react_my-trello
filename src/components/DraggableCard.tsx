@@ -23,6 +23,7 @@ const Button = styled.button`
   background-color: transparent;
   &:hover {
     background-color: ${(props) => props.theme.buttonColor};
+    cursor: pointer;
   }
   i {
     color: #706e6e;
@@ -93,6 +94,7 @@ const CancelButton = styled.button`
   background-color: transparent;
   &:hover {
     background-color: ${(props) => props.theme.buttonColor};
+    cursor: pointer;
   }
   i {
     color: #706e6e;

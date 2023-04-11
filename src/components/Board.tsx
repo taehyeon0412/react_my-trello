@@ -24,6 +24,7 @@ const Button = styled.button`
   background-color: transparent;
   &:hover {
     background-color: ${(props) => props.theme.buttonColor};
+    cursor: pointer;
   }
   i {
     color: #706e6e;
@@ -38,6 +39,7 @@ const CancelButton = styled.button`
   background-color: transparent;
   &:hover {
     background-color: ${(props) => props.theme.buttonColor};
+    cursor: pointer;
   }
   i {
     color: #706e6e;
@@ -141,7 +143,7 @@ const NewCardInput = styled.input`
   width: 100%;
   padding-left: 0.6rem;
   background-color: ${(props) => props.theme.boardColor};
-  height: 2.5rem;
+  height: 3rem;
   border-radius: 0rem 0rem 0.5rem 0.5rem;
   border-color: transparent;
   outline: transparent;
@@ -162,6 +164,7 @@ const NewCardButton = styled.button`
   border-color: ${(props) => props.theme.boardColor};
   &:hover {
     background-color: ${(props) => props.theme.buttonColor};
+    cursor: pointer;
   }
   i {
     color: #706e6e;
