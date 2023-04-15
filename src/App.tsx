@@ -18,7 +18,6 @@ const Wrapper = styled.div`
   height: 100vh;
   margin-top: 3rem;
   margin-left: 2rem;
-  margin-right: 1rem;
   gap: 1rem;
   padding-top: 8rem;
   overflow: auto;
