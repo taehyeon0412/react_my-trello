@@ -41,7 +41,7 @@ const Title = styled.h1`
   transition: color 0.3s;
 `;
 
-const ButtonDiv = styled.div`
+const NvButtonDiv = styled.div`
   display: flex;
   gap: 5px;
 `;
@@ -257,11 +257,11 @@ function App() {
 
       <Navigation>
         <Title>Memo Board</Title>
-        <ButtonDiv>
+        <NvButtonDiv>
           <BoardAddButton onClick={onClickAddBoard}>
             <i className="fa-solid fa-plus"></i>
           </BoardAddButton>
-        </ButtonDiv>
+        </NvButtonDiv>
       </Navigation>
 
       <DragDropContext onDragEnd={onDragEnd}>
