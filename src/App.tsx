@@ -81,6 +81,18 @@ a{
 const FullScreen = styled.div`
   height: 100vh;
   width: 100vw;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    width: 0.6rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #bababa;
+    border-radius: 1rem;
+    background-clip: padding-box;
+    border: 0.2rem solid transparent;
+    transition: background-color 0.3s;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -92,11 +104,6 @@ const Wrapper = styled.div`
   margin-top: 3rem;
   margin-left: 2rem;
   gap: 1rem;
-  overflow-x: scroll;
-  overflow-y: hidden;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;
 
 const Navigation = styled.div`

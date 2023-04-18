@@ -111,14 +111,7 @@ const Wrapper = styled.ul<IWrapperProps>`
   overflow-y: scroll;
   overflow: overlay;
   &::-webkit-scrollbar {
-    width: 0.6rem;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: #bababa;
-    border-radius: 0.3rem;
-    background-clip: padding-box;
-    border: 0.2rem solid transparent;
-    transition: background-color 0.3s;
+    display: none;
   }
 `;
 
