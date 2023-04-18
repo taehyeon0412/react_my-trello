@@ -1,5 +1,5 @@
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { useRecoilState } from "recoil";
 import { IToDoState, toDoState } from "./atoms";
 import Board from "./components/Board";
@@ -7,7 +7,81 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
 
-const FullScreen = styled.div``;
+const GlobalStyle = createGlobalStyle`
+html{
+  @media screen and (max-width: 600px) {
+    font-size: 80%;
+  }
+  @media screen and (max-height: 600px) {
+    font-size: 70%;
+  }
+}
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
+ml, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, menu, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+main, menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, main, menu, nav, section {
+  display: block;
+}
+/* HTML5 hidden-attribute fix for newer browsers */
+*[hidden] {
+    display: none;
+}
+body {
+  line-height: 1;
+}
+menu, ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+*{
+  box-sizing:border-box;
+}
+body{
+  font-family: 'Source Sans Pro', sans-serif;
+  background-image: radial-gradient(circle at 10% 10%, #4a95f6 10%,#4665ca 40%, #403798 80%,#4a95f6 100%);
+  color: black;
+}
+a{
+  text-decoration:none;
+  color:inherit; //부모 색깔을 가져와서 링크를 눌러도 색깔이 변하지않음
+}
+`;
+
+const FullScreen = styled.div`
+  height: 100vh;
+  width: 100vw;
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,24 +89,25 @@ const Wrapper = styled.div`
   margin: 0 auto;
   justify-content: flex-start;
   align-items: flex-start;
-  height: 100vh;
   margin-top: 3rem;
   margin-left: 2rem;
   gap: 1rem;
-  padding-top: 8rem;
-  overflow: auto;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Navigation = styled.div`
   display: flex;
-  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   padding: 2.5rem 3rem;
   align-items: center;
   justify-content: space-between;
-  width: 100vw;
+  width: 100%;
 `;
 
 const Title = styled.h1`
@@ -46,11 +121,9 @@ const NvButtonDiv = styled.div`
   gap: 5px;
 `;
 
-/* const ThemeButton = styled.button``; */
-
 const BoardAddButton = styled.button`
   position: absolute;
-  top: 30%;
+  top: 2.5rem;
   right: 5%;
   height: 2.5rem;
   width: 2.5rem;
@@ -271,67 +344,73 @@ function App() {
   //새로운 보드 추가
 
   const [modalIsOpen, setIsOpen] = useState(false);
-  //모달
   function openModal() {
     setIsOpen(true);
   }
   function closeModal() {
     setIsOpen(false);
   }
+  //모달
 
   return (
-    <FullScreen>
-      {addingBoard && (
-        <Modal
-          isOpen={modalIsOpen}
-          ariaHideApp={false}
-          onRequestClose={closeModal}
-          style={modalCustomStyles}
-        >
-          <AddBoardTitle>
-            <h1>보드 추가</h1>
-            <AddBoardCancelBtn onClick={closeModal}>x</AddBoardCancelBtn>
-          </AddBoardTitle>
-          <AddBoardForm onSubmit={handleSubmit(addBoard)}>
-            <input
-              {...register("boardId", { required: true })}
-              type="text"
-              placeholder="보드를 추가하세요."
-            />
-          </AddBoardForm>
-        </Modal>
-      )}
+    <>
+      <GlobalStyle />
+      <FullScreen>
+        {addingBoard && (
+          <Modal
+            isOpen={modalIsOpen}
+            ariaHideApp={false}
+            onRequestClose={closeModal}
+            style={modalCustomStyles}
+          >
+            <AddBoardTitle>
+              <h1>보드 추가</h1>
+              <AddBoardCancelBtn onClick={closeModal}>x</AddBoardCancelBtn>
+            </AddBoardTitle>
+            <AddBoardForm onSubmit={handleSubmit(addBoard)}>
+              <input
+                {...register("boardId", { required: true })}
+                type="text"
+                placeholder="보드를 추가하세요."
+              />
+            </AddBoardForm>
+          </Modal>
+        )}
 
-      <Navigation>
-        <Title>Memo Board</Title>
-        <NvButtonDiv>
-          <BoardAddButton onClick={onClickAddBoard}>
-            <i className="fa-solid fa-plus"></i>
-          </BoardAddButton>
-        </NvButtonDiv>
-      </Navigation>
+        <Navigation>
+          <Title>Memo Board</Title>
+          <NvButtonDiv>
+            <BoardAddButton onClick={onClickAddBoard}>
+              <i className="fa-solid fa-plus"></i>
+            </BoardAddButton>
+          </NvButtonDiv>
+        </Navigation>
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Wrapper>
-          {Object.keys(toDos).map((boardId) => (
-            <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
-          ))}
-        </Wrapper>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Wrapper>
+            {Object.keys(toDos).map((boardId) => (
+              <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
+            ))}
+          </Wrapper>
 
-        <Trash>
-          <i className="fa-solid fa-trash"></i>
-          <Droppable droppableId="contentTrashDropId">
-            {(trashDrop) => (
-              <DropArea ref={trashDrop.innerRef} {...trashDrop.droppableProps}>
-                {trashDrop.placeholder}
-              </DropArea>
-            )}
-          </Droppable>
-        </Trash>
+          <Trash>
+            <i className="fa-solid fa-trash"></i>
+            <Droppable droppableId="contentTrashDropId">
+              {(trashDrop) => (
+                <DropArea
+                  ref={trashDrop.innerRef}
+                  {...trashDrop.droppableProps}
+                >
+                  {trashDrop.placeholder}
+                </DropArea>
+              )}
+            </Droppable>
+          </Trash>
 
-        {/*  */}
-      </DragDropContext>
-    </FullScreen>
+          {/*  */}
+        </DragDropContext>
+      </FullScreen>
+    </>
   );
 }
 
