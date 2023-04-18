@@ -131,18 +131,40 @@ const modalCustomStyles = {
 
 const Trash = styled.div`
   position: absolute;
-  top: 10%;
-  height: 6rem;
-  width: 6rem;
-  background-color: black;
+  top: 0%;
+  height: 2rem;
+  width: 5rem;
+  border-radius: 0 0 2rem 2rem;
   left: 50%;
+  transform: translate(-50%, -0%);
+  transition: 0.3s;
+  background-color: ${(props) => props.theme.boardColor};
+  &:hover {
+    height: 9rem;
+    width: 15rem;
+    background-color: transparent;
+  }
+  i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `;
+//쓰레기통
 
 const DropArea = styled.div`
   height: 100%;
   width: 100%;
-  border-radius: 20px;
+  border-radius: 0 0 2rem 2rem;
+  transition: 0.5s;
+  opacity: 0;
+  &:hover {
+    background-color: tomato;
+    opacity: 100;
+  }
 `;
+//쓰레기통 안 드래그 영역
 
 interface IAddBoard {
   boardId: string;
@@ -297,6 +319,7 @@ function App() {
         </Wrapper>
 
         <Trash>
+          <i className="fa-solid fa-trash"></i>
           <Droppable droppableId="contentTrashDropId">
             {(trashDrop) => (
               <DropArea ref={trashDrop.innerRef} {...trashDrop.droppableProps}>
