@@ -174,7 +174,7 @@ function DraggableCard({
   };
   //카드 지우기
 
-  console.log(boardId, todoId, todoText, index);
+  //console.log(boardId, todoId, todoText, index);
 
   return (
     <Draggable draggableId={todoId + ""} index={index}>

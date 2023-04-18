@@ -1,4 +1,4 @@
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { IToDoState, toDoState } from "./atoms";
@@ -129,6 +129,21 @@ const modalCustomStyles = {
 };
 //보드 모달 css
 
+const Trash = styled.div`
+  position: absolute;
+  top: 10%;
+  height: 6rem;
+  width: 6rem;
+  background-color: black;
+  left: 50%;
+`;
+
+const DropArea = styled.div`
+  height: 100%;
+  width: 100%;
+  border-radius: 20px;
+`;
+
 interface IAddBoard {
   boardId: string;
 }
@@ -174,29 +189,39 @@ function App() {
         "To Do": boardCopy로 js는 알아듣는다
         정리하면 splice로 변경된 boardCopy를 source.droppableId에 넣는다는뜻*/
       });
-    } //같은 보드에서 변경이 있을 경우
+    }
+    //같은 보드에서 변경이 있을 경우
 
     if (destination.droppableId !== source.droppableId) {
-      //
+      if (destination.droppableId === "contentTrashDropId") {
+        setToDos((allBoards) => {
+          const boardCopy = [...allBoards[source.droppableId]];
+          boardCopy.splice(source.index, 1);
+          return { ...allBoards, [source.droppableId]: boardCopy };
+        });
+      }
+      //droppableId가 contentTrashDropId 일때 쓰레기통 기능
+      else {
+        setToDos((allBoards) => {
+          const sourceBoard = [...allBoards[source.droppableId]];
+          //시작지점(드래그지점)
+          const taskObj = sourceBoard[source.index];
+          //sourceBoard[source.index]에 있는 오브젝트를 받아옴
+          //source.index는 시작지점 index 번호
+          const destinationBoard = [...allBoards[destination.droppableId]];
+          //끝지점(드롭지점)
+          sourceBoard.splice(source.index, 1);
+          destinationBoard.splice(destination?.index, 0, taskObj);
 
-      setToDos((allBoards) => {
-        const sourceBoard = [...allBoards[source.droppableId]];
-        //시작지점(드래그지점)
-        const taskObj = sourceBoard[source.index];
-        //sourceBoard[source.index]에 있는 오브젝트를 받아옴
-        //source.index는 시작지점 index 번호
-        const destinationBoard = [...allBoards[destination.droppableId]];
-        //끝지점(드롭지점)
-        sourceBoard.splice(source.index, 1);
-        destinationBoard.splice(destination?.index, 0, taskObj);
-
-        return {
-          ...allBoards,
-          [source.droppableId]: sourceBoard,
-          [destination.droppableId]: destinationBoard,
-        };
-      });
-    } //다른 보드를 건너가서 변경이 있을 경우
+          return {
+            ...allBoards,
+            [source.droppableId]: sourceBoard,
+            [destination.droppableId]: destinationBoard,
+          };
+        });
+      }
+    }
+    //다른 보드를 건너가서 변경이 있을 경우
   };
 
   const { register, setValue, handleSubmit } = useForm<IAddBoard>();
@@ -270,6 +295,18 @@ function App() {
             <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
           ))}
         </Wrapper>
+
+        <Trash>
+          <Droppable droppableId="contentTrashDropId">
+            {(trashDrop) => (
+              <DropArea ref={trashDrop.innerRef} {...trashDrop.droppableProps}>
+                {trashDrop.placeholder}
+              </DropArea>
+            )}
+          </Droppable>
+        </Trash>
+
+        {/*  */}
       </DragDropContext>
     </FullScreen>
   );
